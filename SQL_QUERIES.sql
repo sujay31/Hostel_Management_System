@@ -346,20 +346,21 @@ INSERT INTO wing_members VALUES('2019A9PS0632P', '2019A5PS0414P', 'M');
 INSERT INTO wing_members VALUES('2019A9PS0640P', '2019A5PS0414P', 'M');
 INSERT INTO wing_members VALUES('2019A9PS0648P', '2019A5PS0414P', 'M');
 
--- Drop queries for procedure, trigger, view, tables and database 
-DROP PROCEDURE get_vacancy;
-DROP PROCEDURE allocate_girls;
-DROP PROCEDURE hostel_allotment_girls;
-DROP PROCEDURE allocate_boys;
-DROP PROCEDURE random_allocate_boys;
-DROP PROCEDURE hostel_allotment_boys;
-DROP PROCEDURE insert_into_hostel;
+-- Uncomment the below queries to drop any procedure, trigger, view, tables and database
 
-DROP TRIGGER trig;
+-- DROP PROCEDURE get_vacancy;
+-- DROP PROCEDURE allocate_girls;
+-- DROP PROCEDURE hostel_allotment_girls;
+-- DROP PROCEDURE allocate_boys;
+-- DROP PROCEDURE random_allocate_boys;
+-- DROP PROCEDURE hostel_allotment_boys;
+-- DROP PROCEDURE insert_into_hostel;
 
-DROP VIEW girls, boys;
+-- DROP TRIGGER trig;
 
-DROP TABLES ashok, bhagirath, budh, cvr, gandhi, krishna, malviya, meera, ram, ranapratap, shankar, sr, vishwakarma, vyas;
-DROP TABLES wing_members, wing_leader, hostel_list;
+-- DROP VIEW girls, boys;
 
-DROP DATABASE hostel;
+-- DROP TABLES ashok, bhagirath, budh, cvr, gandhi, krishna, malviya, meera, ram, ranapratap, shankar, sr, vishwakarma, vyas;
+-- DROP TABLES wing_members, wing_leader, hostel_list;
+
+-- DROP DATABASE hostel;
