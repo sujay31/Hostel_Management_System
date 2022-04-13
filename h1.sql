@@ -48,7 +48,7 @@ CREATE TABLE vishwakarma LIKE ashok;
 CREATE TABLE vyas LIKE ashok;
 
 INSERT INTO hostel_list VALUES
-("AK", 400), ("BG", 400), ("BD", 400), ("CV", 400), ("GN", 400), ("KR", 400), ("MA", 400),
+("AK", 400), ("BG", 400), ("BD", 400), ("CV", 400), ("GN", 400), ("KR", 400), ("ML", 400),
 ("MR", 400), ("RM", 400), ("RP", 400), ("SK", 400), ("SR", 400), ("VK", 400), ("VY", 400);
 
 select * from hostel_list;
