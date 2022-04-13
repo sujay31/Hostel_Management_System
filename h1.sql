@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS hostel; 
 CREATE DATABASE hostel;
 USE hostel;
 SHOW DATABASES;
@@ -14,8 +15,8 @@ id VARCHAR (13) NOT NULL UNIQUE,
 wing_size INT UNSIGNED NOT NULL,
 gender CHAR(1), CHECK(gender in ("M", "F")),
 pref_1 CHAR(2) NOT NULL,
-pref_2 CHAR(2) NOT NULL,
-pref_3 CHAR(2) NOT NULL,
+pref_2 CHAR(2),
+pref_3 CHAR(2),
 PRIMARY KEY (id)
 );
 
@@ -60,22 +61,46 @@ room_number int unsigned
 );
 
 -- Starting girl allocation 
-CREATE VIEW girls AS
-SELECT id, wing_size FROM wing_leader
-where gender = "F";
+-- CREATE VIEW girls AS
+-- SELECT id, wing_size FROM wing_leader
+-- where gender = "F";
 
-select * from wing_members;
+-- select * from wing_members;
 
-update girls set wing_size = wing_size + 1;
+-- update girls set wing_size = wing_size + 1;
 
-call allocate_girls("2019b4a70860p");
+-- call allocate_girls("2019b4a70860p");
 
 
-CREATE VIEW boys AS
-SELECT id, wing_size, pref_1, pref_2, pref_3 FROM wing_leader
-where gender = "M";
+-- CREATE VIEW boys AS
+-- SELECT id, wing_size, pref_1, pref_2, pref_3 FROM wing_leader
+-- where gender = "M";
 
-update boys set wing_size = wing_size + 1;
+-- update boys set wing_size = wing_size + 1;
+
+-- Trigger to ensure 2 things before inserting into the wing_members table --
+-- 1. The gender of the entry to be inserted matches with the gender of the wing leader --
+-- 2. Wing size should not exceed the size specified by the wing leader --
+DELIMITER $$
+CREATE TRIGGER trig BEFORE INSERT
+ON wing_members
+FOR EACH ROW
+BEGIN
+DECLARE x INT;
+IF (NEW.gender != (SELECT gender FROM wing_leader WHERE wing_leader.id = NEW.id_2)) THEN
+	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insert Unsuccessful. Gender not matching with the gender of the wing leader.';
+END IF;
+SELECT COUNT(*)
+	INTO x
+FROM
+	wing_members
+WHERE 
+	wing_members.id_2 = NEW.id_2;
+IF (x > (SELECT wing_size - 2 FROM wing_leader WHERE wing_leader.id = NEW.id_2)) THEN
+	SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = 'Insert Unsuccessful. Wing is already full.';
+END IF;
+END; $$
+DELIMITER ;
 
 -- Sample Data --
 INSERT INTO wing_leader VALUES('2019A1PS0150P', 4, 'M', 'ML', 'RM', 'BD');
@@ -88,6 +113,8 @@ INSERT INTO wing_leader VALUES('2019A1PS0433P', 4, 'F', 'MR', NULL, NULL);
 INSERT INTO wing_members VALUES('2019A1PS0386P', '2019A1PS0150P', 'M');
 INSERT INTO wing_members VALUES('2019A1PS0556P', '2019A1PS0150P', 'M');
 INSERT INTO wing_members VALUES('2019A1PS0581P', '2019A1PS0150P', 'M');
+
+SELECT * FROM wing_members;
 
 INSERT INTO wing_members VALUES('2019A1PS0600P', '2019A1PS0599P', 'M');
 INSERT INTO wing_members VALUES('2019A1PS0601P', '2019A1PS0599P', 'M');
